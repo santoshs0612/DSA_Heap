@@ -1,0 +1,35 @@
+#include <bits/stdc++.h> 
+
+
+void hepify(vector<int> &arr,int n,int i)
+{
+    int smallest= i;
+    int left_ind= 2*i+1;
+    int right_ind= 2*i+2;
+    // checking for left side 
+    if(left_ind<n &&  arr[smallest]>arr[left_ind])
+    {
+        smallest= left_ind;
+    }
+    if(right_ind<n &&  arr[smallest]>arr[right_ind])
+    {
+        smallest= right_ind;
+    }
+    
+    if(smallest!=i)
+    {
+        swap(arr[smallest],arr[i]);
+        hepify(arr,n, smallest);
+    }
+}
+vector<int> buildMinHeap(vector<int> &arr)
+{
+    // Write your code here
+    int n = arr.size();
+    int i;
+    for(i=n/2-1;i>=0;i--)
+    {
+        hepify(arr,n,i);
+    }
+    return arr;
+}
