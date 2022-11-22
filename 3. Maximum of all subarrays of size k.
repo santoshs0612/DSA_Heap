@@ -1,0 +1,117 @@
+IPL 2021 - Match Day 2
+Due to the rise of covid-19 cases in India, this year BCCI decided to organize knock-out matches in IPL rather than a league.
+
+Today is matchday 2 and it is between the most loved team Chennai Super Kings and the most underrated team - Punjab Kings. Stephen Fleming, the head coach of CSK, analyzing the batting stats of Punjab. He has stats of runs scored by all N players in the previous season and he wants to find the maximum score for each and every contiguous sub-list of size K to strategize for the game.
+
+Example 1:
+
+Input:
+N = 9, K = 3
+arr[] = 1 2 3 1 4 5 2 3 6
+Output: 
+3 3 4 5 5 5 6 
+Explanation: 
+1st contiguous subarray = {1 2 3} Max = 3
+2nd contiguous subarray = {2 3 1} Max = 3
+3rd contiguous subarray = {3 1 4} Max = 4
+4th contiguous subarray = {1 4 5} Max = 5
+5th contiguous subarray = {4 5 2} Max = 5
+6th contiguous subarray = {5 2 3} Max = 5
+7th contiguous subarray = {2 3 6} Max = 6
+Example 2:
+
+Input:
+N = 10, K = 4
+arr[] = 8 5 10 7 9 4 15 12 90 13
+Output: 
+10 10 10 15 15 90 90
+Explanation: 
+1st contiguous subarray = {8 5 10 7}, Max = 10
+2nd contiguous subarray = {5 10 7 9}, Max = 10 
+3rd contiguous subarray = {10 7 9 4}, Max = 10 
+4th contiguous subarray = {7 9 4 15}, Max = 15
+5th contiguous subarray = {9 4 15 12}, Max = 15 
+6th contiguous subarray = {4 15 12 90}, Max = 90 
+7th contiguous subarray = {15 12 90 13}, Max = 90 
+
+
+
+
+
+
+
+
+
+  public:
+ 
+    vector<int> max_of_subarrays(vector<int> arr, int n, int k) {
+        // your code here
+        
+        // sliding window
+        // int i=0,j=0;
+        // int max_till_now=INT_MIN;
+        // vector<int> ans;
+        // while(j<n)
+        // {
+        //     max_till_now= max(arr[j],max_till_now);
+            
+        //     if(j-i+1==k)
+        //     {
+        //         ans.push_back(max_till_now);
+        //         if(arr[i]==max_till_now)
+        //         {
+        //             max_till_now= arr[i+1];
+        //             int test=i;
+        //             while(j-test>=0)
+        //             {
+        //                 max_till_now= max(arr[test+1],max_till_now);
+        //                 test++;
+        //             }
+        //         }
+        //         i++;
+                
+                
+        //     }
+        //     j++;
+        // }
+        // return ans;
+        
+        ///// using max heap
+        priority_queue<int> heap;
+        priority_queue<int> drop;
+        
+        vector<int> ans;
+        int i=0;
+        for(i=0;i<k;i++)
+        {
+            heap.push(arr[i]);
+        }
+        ans.push_back(heap.top());
+        for(i=k;i<n;i++)
+        {
+            if(arr[i-k]== heap.top())
+            {
+                heap.pop();
+            }
+            else 
+            {
+                drop.push(arr[i-k]);
+                // while(!drop.empty() && heap.top()==drop.top())
+                // {
+                //     heap.pop();
+                //     drop.pop();
+                // }
+                
+            }
+            while(!drop.empty() && heap.top()==drop.top())
+            {
+                heap.pop();
+                drop.pop();
+            }
+            heap.push(arr[i]);
+            ans.push_back(heap.top());
+        }
+        return ans;
+        
+    }
+};
